@@ -26,8 +26,8 @@ wheels/
 # History file
 history.json
 
-# Config (nếu muốn giữ bí mật)
-config.py
+# Biến môi trường chứa mật khẩu (local)
+.env
 
 # IDE
 .vscode/
