@@ -23,8 +23,7 @@ wheels/
 .installed.cfg
 *.egg
 
-# History file
-history.json
+
 
 # Biến môi trường chứa mật khẩu (local)
 .env

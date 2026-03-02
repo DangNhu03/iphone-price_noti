@@ -1,10 +1,11 @@
 """Module chính để kiểm tra và so sánh giá"""
 
 from .api import get_current_price
-from .history import load_history, save_history, get_product_history, update_product_history
+from .history import load_history, get_product_history, update_product_history
 from .email_sender import send_email_notification
 from .utils import format_price
 from .config import PRODUCTS
+
 
 
 def check_price_change():
@@ -55,5 +56,5 @@ def check_price_change():
         # Lưu giá hiện tại vào lịch sử
         history = update_product_history(history, product_id, current_price_data)
     
-    save_history(history)
     print("\nĐã cập nhật lịch sử giá cho tất cả sản phẩm.")
+

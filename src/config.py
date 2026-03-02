@@ -38,5 +38,11 @@ PRODUCTS = [
 # API endpoint
 API_URL = 'https://api.cellphones.com.vn/v2/graphql/query'
 
-# File lưu lịch sử giá
-HISTORY_FILE = 'history.json'
+# PostgreSQL Database Configuration
+DATABASE_CONFIG = {
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'port': int(os.getenv('DB_PORT', '5432')),
+    'database': os.getenv('DB_NAME', 'iphone_price_db'),
+    'user': os.getenv('DB_USER', 'postgres'),
+    'password': os.getenv('DB_PASSWORD', ''),
+}
