@@ -5,9 +5,12 @@ from datetime import datetime
 from .config import DATABASE_CONFIG
 from .email_sender import send_error_notification
 
+# Cờ để chỉ gửi email báo lỗi kết nối DB tối đa 1 lần mỗi lần chạy
+_db_error_notified = False
 
 def get_db_connection():
     """Tạo kết nối đến PostgreSQL"""
+    global _db_error_notified
     try:
         conn = psycopg.connect(
             host=DATABASE_CONFIG['host'],
@@ -20,11 +23,14 @@ def get_db_connection():
     except psycopg.Error as e:
         msg = f"Lỗi kết nối database: {e}"
         print(msg)
-        # Thử gửi email báo lỗi, nhưng không để lỗi này phá vỡ luồng chính
-        try:
-            send_error_notification(msg)
-        except Exception:
-            pass
+        # Gửi email báo lỗi tối đa 1 lần cho mỗi lần chạy
+        if not _db_error_notified:
+            _db_error_notified = True
+            try:
+                send_error_notification(msg)
+            except Exception:
+                # Nếu gửi email cũng lỗi thì bỏ qua, tránh làm hỏng luồng chính
+                pass
         return None
 
 
