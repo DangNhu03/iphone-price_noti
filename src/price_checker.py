@@ -56,5 +56,5 @@ def check_price_change():
         # Lưu giá hiện tại vào lịch sử
         history = update_product_history(history, product_id, current_price_data)
     
-    print("\nĐã cập nhật lịch sử giá cho tất cả sản phẩm.")
+    print("\nĐã xử lý kiểm tra giá cho tất cả sản phẩm. Kiểm tra log ở trên để biết lịch sử có lưu vào database thành công hay không.")
 

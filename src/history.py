@@ -3,6 +3,7 @@
 import psycopg
 from datetime import datetime
 from .config import DATABASE_CONFIG
+from .email_sender import send_error_notification
 
 
 def get_db_connection():
@@ -17,7 +18,13 @@ def get_db_connection():
         )
         return conn
     except psycopg.Error as e:
-        print(f"Lỗi kết nối database: {e}")
+        msg = f"Lỗi kết nối database: {e}"
+        print(msg)
+        # Thử gửi email báo lỗi, nhưng không để lỗi này phá vỡ luồng chính
+        try:
+            send_error_notification(msg)
+        except Exception:
+            pass
         return None
 
 
@@ -93,6 +100,7 @@ def update_product_history(history, product_id, price_data):
     """Cập nhật lịch sử giá của một sản phẩm vào database"""
     conn = get_db_connection()
     if conn is None:
+        print("Không thể kết nối database, không lưu được lịch sử giá.")
         return history
     
     try:
